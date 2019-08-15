@@ -13,8 +13,8 @@ class Server {
     start(){
         server.listen(port, console.log('server started, and listening to requests on port 5500'))
         
-        //serve the static files in the public folder to the browser, these are the files that the users will see
-        app.use(express.static('public'))
+        //serve the static files in the src folder to the browser, these are the files that the users will see
+        app.use(express.static('src'))
     }
 }
 

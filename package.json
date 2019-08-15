@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode development --entry ./src/js/app.js --output ./dist/main.js",
+    "build:css": "webpack ./src/css/main.css -o ./dist/tailwind.css"
   },
   "repository": {
     "type": "git",
@@ -18,9 +20,19 @@
   "homepage": "https://github.com/Lee1331/Hangout-App#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "socket.io": "^2.2.0"
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "postcss-cli": "^6.1.3",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "css-loader": "^3.2.0",
+    "postcss": "^7.0.17",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^1.0.0",
+    "tailwindcss": "^1.1.2",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6"
   }
 }
