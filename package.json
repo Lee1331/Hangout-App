@@ -6,7 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode development --entry ./src/js/app.js --output ./dist/main.js",
-    "build:css": "webpack ./src/css/main.css -o ./dist/tailwind.css"
+    "build:webpack-dev-server": "webpack-dev-server --mode development --entry ./src/js/app.js --output-filename ./dist/main.js",
+    "build:css+html:webpack": "webpack ./src/css/main.css -o ./dist/tailwind.css",
+    "build:css": "postcss ./src/css/main.css -o ./dist/tailwind.css",
+    "watch:css": "watch \"npm run build:css\" ./src",
+    "watch": "npm run build:css+html:webpack & npm run build"
   },
   "repository": {
     "type": "git",
@@ -24,14 +28,19 @@
     "html-webpack-plugin": "^3.2.0",
     "postcss-cli": "^6.1.3",
     "socket.io": "^2.2.0",
-    "socket.io-client": "^2.2.0"
+    "socket.io-client": "^2.2.0",
+    "webpack-dev-server": "^3.8.0"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^1.2.0",
     "css-loader": "^3.2.0",
+    "cssnano": "^4.1.10",
+    "nodemon": "^1.19.1",
     "postcss": "^7.0.17",
     "postcss-loader": "^3.0.0",
     "style-loader": "^1.0.0",
     "tailwindcss": "^1.1.2",
+    "watch": "^1.0.2",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.6"
   }

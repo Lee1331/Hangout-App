@@ -1,8 +1,18 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 // const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-
+const path = require('path');
 module.exports = {
+    entry: './src/js/app.js',
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'main.js'
+    },
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        compress: true,
+        port: 5500
+    },
     module: {
         rules: [
             {
@@ -42,6 +52,8 @@ module.exports = {
                             plugins: [
                                 require('tailwindcss'),
                                 require('autoprefixer'),
+                                require('cssnano')({ preset: 'default' }),
+                                // require('@fullhuman/postcss-purgecss')({ preset: 'default' }),
                             ],
                         }
                     },
