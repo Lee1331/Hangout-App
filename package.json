@@ -8,9 +8,11 @@
     "build": "webpack --mode development --entry ./src/js/app.js --output ./dist/main.js",
     "build:webpack-dev-server": "webpack-dev-server --mode development --entry ./src/js/app.js --output-filename ./dist/main.js",
     "build:css+html:webpack": "webpack ./src/css/main.css -o ./dist/tailwind.css",
+    "build:html+js": "webpack",
     "build:css": "postcss ./src/css/main.css -o ./dist/tailwind.css",
     "watch:css": "watch \"npm run build:css\" ./src",
-    "watch": "npm run build:css+html:webpack & npm run build"
+    "watch:webpack": "watch \"npm run build:css+html:webpack & npm run build\" ./src",
+    "watch": "watch \"npm run build:css & npm run build:html+js\" ./src"
   },
   "repository": {
     "type": "git",
@@ -35,9 +37,11 @@
     "@fullhuman/postcss-purgecss": "^1.2.0",
     "css-loader": "^3.2.0",
     "cssnano": "^4.1.10",
+    "mini-css-extract-plugin": "^0.8.0",
     "nodemon": "^1.19.1",
     "postcss": "^7.0.17",
     "postcss-loader": "^3.0.0",
+    "purgecss-webpack-plugin": "^1.5.0",
     "style-loader": "^1.0.0",
     "tailwindcss": "^1.1.2",
     "watch": "^1.0.2",

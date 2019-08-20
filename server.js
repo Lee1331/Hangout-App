@@ -1,12 +1,14 @@
 const express = require('express')
 const app = express()
-const server = require('http').Server(app)
+const server = require('http').createServer(app)
 const port = 5500
 // const socket = require('socket.io')(server)
 const io = require('socket.io')
 
 class Server {
     constructor(){
+        this.rooms = []
+        this.users = []
         this.start()
     }
 
