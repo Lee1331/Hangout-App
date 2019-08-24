@@ -11,6 +11,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'main.js'
+        // filename: '[name].[contentHash].main.js'
     },
     optimization:{
         minimizer: [new TerserPlugin()] //we can also add/require 'optimize-css-assets-webpack-plugin here as well to minify the css instead of doing it in postcss.config.js'
