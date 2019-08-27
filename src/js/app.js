@@ -8,19 +8,29 @@ window.onload = function(){
         console.log('connected')
     })
 
+    // let ChatController = (function(){
+    // })()
+    
+    // let CameraController = (function(){
+    // })()
+    
+    // let GameController = (function(){
+    //     //p5.canvas stuff...
+    // })()
+
     let RoomController = (function(){
-        let data = {
-            rooms: []
-            // rooms: {
-                // type: [
+        // let data = {
+        //     rooms: []
+        //     // rooms: {
+        //         // type: [
 
-                // ],
-                //users: []
-                // 
-            // }
-        }
+        //         // ],
+        //         //users: []
+        //         // 
+        //     // }
+        // }
 
-        return{
+        return {
             // createRoom: (room) => {
             //     // socket.on('create', function (room) {
             //         data.rooms.push(room)
@@ -34,11 +44,11 @@ window.onload = function(){
                 socket.join(room)
                 console.log('user joined' + room)
             },
-            getRooms: function(){
-                return {
-                    rooms: data.rooms,
-                }
-            },
+            // getRooms: function(){
+            //     return {
+            //         rooms: data.rooms,
+            //     }
+            // },
         }
     })()
 
@@ -63,7 +73,7 @@ window.onload = function(){
 
 
     let controller = (function(RoomCtrl, UICtrl){
-        console.log(RoomCtrl.getRooms())
+        // console.log(RoomCtrl.getRooms())
         let setupEventListeners = function() {
             const DOM = UICtrl.getDOMStrings()
 
