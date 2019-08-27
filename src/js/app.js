@@ -1,17 +1,123 @@
 const io = require('socket.io-client')
 
-// const socket = io.connect('http://localhost:5500')
+window.onload = function(){
 
-// socket.on('connection', function(){
-//     console.log('connected')
-// })
+    let socket = io.connect('http://localhost:5500')
 
-// const io = require('socket.io/socket.io')
-let socket = io.connect('http://localhost:5500')
+    socket.on('connection', function(){
+        console.log('connected')
+    })
+
+    let RoomController = (function(){
+        let data = {
+            rooms: []
+            // rooms: {
+                // type: [
+
+                // ],
+                //users: []
+                // 
+            // }
+        }
+
+        return{
+            // createRoom: (room) => {
+            //     // socket.on('create', function (room) {
+            //         data.rooms.push(room)
+            //         socket.join(room)
+            //         console.log('user created' + room)
+            //         console.log(data)
+            //     // });
+            // },
+            joinRoom: (room) => {
+                // data.rooms.push(room)
+                socket.join(room)
+                console.log('user joined' + room)
+            },
+            getRooms: function(){
+                return {
+                    rooms: data.rooms,
+                }
+            },
+        }
+    })()
+
+    let UIController = (function(){
+        const DOMStrings = {
+            usernameInput: 'username_input', 
+            roomInput: 'room_input', 
+            inputBtn: '#input_btn',
+            rooms: 'avaliable_rooms', 
+        }
+        return {
+            // displayUsers: () => {},
+            getInput: () => {
+                return {
+                    username: document.getElementById(DOMStrings.usernameInput).value,
+                    room: document.getElementById(DOMStrings.roomInput).value,
+                }
+            },
+            getDOMStrings: () => DOMStrings
+        }
+    })()
 
 
-document.getElementById('user_input').style.backgroundColor = 'blue'
+    let controller = (function(RoomCtrl, UICtrl){
+        console.log(RoomCtrl.getRooms())
+        let setupEventListeners = function() {
+            const DOM = UICtrl.getDOMStrings()
 
-socket.on('connection', function(){
-    console.log('connected')
-})
+            document.querySelector(DOM.inputBtn).addEventListener('click', setupRoom)
+
+            console.log(  document.querySelector(DOM.inputBtn))
+            document.addEventListener('keypress', function(event) {
+                if (event.keyCode === 13 || event.which === 13) {
+                    setupRoom()
+                }
+            })
+        }
+        let setupRoom = () => {
+            let input
+            
+            // 1. Get the field input data
+            input = UICtrl.getInput()
+            
+            // 2. if the input data isn't empty /is valid ... (add other error checks/config options)
+            if(input.room !== '' && input.username !== ''){
+                // 3. if the room already exists
+                // if(input.room === server.rooms){
+
+                    // let rooms = RoomCtrl.getRooms()
+                    // console.log(rooms)
+                    // if(rooms.includes(input.room)){
+                    //     //server.join(.input.room)
+                    //     // RoomCtrl.createRoom
+
+                    //     RoomCtrl.joinRoom(input.room)
+                    //     //RoomCtrl.add(room, username?)
+                    // }
+                // console.log(input)
+                // RoomCtrl.joinRoom(input.room)
+
+                //4. else create the new room
+                // let data = RoomCtrl.getRooms()
+                // // console.log(data.rooms)
+                // if(!data.rooms.includes(input.room)){
+                //     // RoomCtrl.createRoom(input.room)
+                // }
+
+                socket.emit('create', input.room)
+                // console.log(socket)
+            }
+        }
+
+        return {
+            init: function() {
+                console.log('Application has started.')
+                setupEventListeners()
+            }
+        }
+    })(RoomController, UIController)
+
+    controller.init()
+}

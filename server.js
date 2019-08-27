@@ -33,11 +33,13 @@
 // const port = 5500
 
 
-var express = require('express');
-var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+// const io = require('socket.io')(server);
 const socket = require('socket.io');
+const io = socket(server);
+
 const port = 5500
 
 
@@ -64,10 +66,18 @@ class Server {
     }
 
     listenForConnections(){
-        io.on('connection', function(){
+        io.on('connection', function(socket){
             console.log('user connected')
+    
+            socket.on('create', (room) => {
+                this.rooms.push(room)
+                console.log('rooms = ' + this.rooms)
+            })
         })
     }
+
+    // createUser(){}
+    // createRoom(){}
 }
 
 new Server()
