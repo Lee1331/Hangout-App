@@ -1,37 +1,3 @@
-// const express = require('express')
-// const app = express()
-// const server = require('http').createServer(app)
-// const port = 5500
-// // const socket = require('socket.io')(server)
-// const io = require('socket.io')
-
-// const app = require('express')()
-// const server = require('http').Server(app)
-// const port = 5500
-
-// const express = require('express');
-// const app = express();
-// const server = require('http').Server(app);
-
-// const io = require('socket.io')(server)
-
-// const socket = require('socket.io')(server)
-// let io = socket(server);
-
-
-
-
-
-
-
-
-
-// var app = require('express')();
-// var server = require('http').Server(app);
-// var io = require('socket.io')(server);
-// const socket = require('socket.io');
-// const port = 5500
-
 
 const express = require('express');
 const app = express();
@@ -39,14 +5,12 @@ const server = require('http').Server(app);
 // const io = require('socket.io')(server);
 const socket = require('socket.io');
 const io = socket(server);
-
 const port = 5500
-
 
 class Server {
     constructor(){
-        this.rooms = []
         this.users = []
+        this.rooms = []
         this.start()
         this.listenForConnections()
     }
@@ -69,15 +33,19 @@ class Server {
         io.on('connection', function(socket){
             console.log('user connected')
     
-            socket.on('create', (room) => {
+            socket.on('create-room', (room) => {
+                console.log('room ' + room + ' created')
                 this.rooms.push(room)
                 console.log('rooms = ' + this.rooms)
             })
+            socket.on('create-user', (username) => {
+                console.log('user ' + username + ' created')
+                this.users.push(username)
+                console.log('users = ' + this.users)
+                // console.log(this)
+            })
         })
     }
-
-    // createUser(){}
-    // createRoom(){}
 }
 
 new Server()

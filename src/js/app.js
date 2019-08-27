@@ -77,13 +77,14 @@ window.onload = function(){
             })
         }
         let setupRoom = () => {
-            let input
             
             // 1. Get the field input data
-            input = UICtrl.getInput()
-            
+            const {username, room} = UICtrl.getInput()
+            // const data = UICtrl.getInput()
+            // console.log('data = ' + room, username)
+
             // 2. if the input data isn't empty /is valid ... (add other error checks/config options)
-            if(input.room !== '' && input.username !== ''){
+            if(room !== '' && username !== ''){
                 // 3. if the room already exists
                 // if(input.room === server.rooms){
 
@@ -106,7 +107,8 @@ window.onload = function(){
                 //     // RoomCtrl.createRoom(input.room)
                 // }
 
-                socket.emit('create', input.room)
+                socket.emit('create-room', room)
+                socket.emit('create-user', username)
                 // console.log(socket)
             }
         }
