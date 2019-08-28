@@ -68,6 +68,7 @@ window.onload = function(){
                     room: document.getElementById(DOMStrings.roomInput).value,
                 }
             },
+            getDOMStrings: () => DOMStrings,
             clearFields: () => {
                 let fields, fieldsArr
 
@@ -82,7 +83,9 @@ window.onload = function(){
                 
                 fieldsArr[0].focus()
             },
-            getDOMStrings: () => DOMStrings
+            displayRooms: () => {
+
+            },
         }
     })()
 
@@ -133,8 +136,9 @@ window.onload = function(){
                 // }
 
 
-                socket.emit('create-room', room)
                 socket.emit('create-user', username)
+                socket.emit('create-room', room)
+                
 
                 UICtrl.clearFields()
 

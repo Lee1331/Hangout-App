@@ -84,16 +84,58 @@ let Server = (function(){
                     // cameras:{},
                     // game:{}
                 //}
+                {room1:{}},   
             ],
             users: [
                 //pretty sure we can handle users connecting/disconnecting to rooms without needing to store them in 'data.rooms'
             ]
         }
 
+        // let User = function(username){
+        //     this.username = username
+        // }
+
+        // let Options = function(options = {}){
+        //     const {camera = true, chat = true, gameType = 'draw'} = options
+
+        //     this.options = {
+        //         camera,
+        //         chat,
+        //         gameType
+        //     }
+        // }
+
+        // let Room = function(name, users = {}, options = {} ){
+        //     const {camera = true, chat = true, gameType = 'draw'} = options
+            
+        //     this.name = name
+        //     this.options = {
+        //         camera,
+        //         chat,
+        //         gameType
+        //     }
+        //     this.users = users
+            
+        // }
+
+        // let tim = new User('tim')
+        // let jim = new User('jim')
+        // let room999 = new Room(
+        //     'room999',
+        //     {tim, jim}
+        // )
+        // console.log('room999 = ', room999)
+        // console.log('newRoom = ', new Room('newRoom', {}, {camera: false, gameType: 'tetris'}))
+        // let rooms = {
+        //     room1: {users: {}, options:{}}
+        // }
+
         let start = function(){
         server.listen(port, console.log(`server started, and listening to requests on ${port}`))
         //serve the static files in the src folder to the browser, these are the files that the users will see
         app.use(express.static('./dist'))
+            
+      
     }
 
     let listenForConnections = function(){
@@ -104,6 +146,8 @@ let Server = (function(){
                 console.log('room ' + room + ' created')
                 data.rooms.push(room)
                 console.log('rooms = ' + data.rooms)
+
+                // socket.broadcast.emit
             })
             socket.on('create-user', (username) => {
                 console.log('user ' + username + ' created')
@@ -111,6 +155,7 @@ let Server = (function(){
                 console.log('users = ' + data.users)
                 // console.log(this)
             })
+          
         })
     }
     return {
