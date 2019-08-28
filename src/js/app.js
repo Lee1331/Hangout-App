@@ -58,6 +58,7 @@ window.onload = function(){
             roomInput: 'room_input', 
             inputBtn: '#input_btn',
             rooms: 'avaliable_rooms', 
+            roomForm: 'room_form',
         }
         return {
             // displayUsers: () => {},
@@ -66,6 +67,20 @@ window.onload = function(){
                     username: document.getElementById(DOMStrings.usernameInput).value,
                     room: document.getElementById(DOMStrings.roomInput).value,
                 }
+            },
+            clearFields: () => {
+                let fields, fieldsArr
+
+                fields = [
+                    document.getElementById(DOMStrings.usernameInput),
+                    document.getElementById(DOMStrings.roomInput)
+                ]
+
+                fieldsArr = fields.slice()
+                
+                fieldsArr.forEach((current, index, array) => current.value = '')
+                
+                fieldsArr[0].focus()
             },
             getDOMStrings: () => DOMStrings
         }
@@ -78,8 +93,8 @@ window.onload = function(){
             const DOM = UICtrl.getDOMStrings()
 
             document.querySelector(DOM.inputBtn).addEventListener('click', setupRoom)
+            // document.querySelector(DOM.roomForm).addEventListener('click', setupRoom)
 
-            console.log(  document.querySelector(DOM.inputBtn))
             document.addEventListener('keypress', function(event) {
                 if (event.keyCode === 13 || event.which === 13) {
                     setupRoom()
@@ -117,8 +132,12 @@ window.onload = function(){
                 //     // RoomCtrl.createRoom(input.room)
                 // }
 
+
                 socket.emit('create-room', room)
                 socket.emit('create-user', username)
+
+                UICtrl.clearFields()
+
                 // console.log(socket)
             }
         }
