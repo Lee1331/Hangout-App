@@ -94,7 +94,7 @@ let Server = (function(){
         // let User = function(username){
         //     this.username = username
         // }
-
+        
         // let Options = function(options = {}){
         //     const {camera = true, chat = true, gameType = 'draw'} = options
 
@@ -113,7 +113,7 @@ let Server = (function(){
         //         camera,
         //         chat,
         //         gameType
-        //     }
+        //     }    
         //     this.users = users
             
         // }
@@ -135,7 +135,13 @@ let Server = (function(){
         //serve the static files in the src folder to the browser, these are the files that the users will see
         app.use(express.static('./dist'))
             
-      
+        app.get('/', (req, res) => {
+            res.render('index', {data: rooms})
+        })
+    
+        app.get('/:room', (req, res) => {
+            res.render('room', {roomName: req.params.room})
+        })
     }
 
     let listenForConnections = function(){
@@ -155,7 +161,10 @@ let Server = (function(){
                 console.log('users = ' + data.users)
                 // console.log(this)
             })
-          
+            socket.on('join-room', (room, username) => {
+                socket.join(room)
+                socket.to(room).broadcast.emit('user-connected', username)
+            })
         })
     }
     return {

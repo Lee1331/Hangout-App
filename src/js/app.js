@@ -138,7 +138,7 @@ window.onload = function(){
 
                 socket.emit('create-user', username)
                 socket.emit('create-room', room)
-                
+                socket.emit('join-room', room, username)
 
                 UICtrl.clearFields()
 
