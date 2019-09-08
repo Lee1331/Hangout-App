@@ -130,15 +130,21 @@ let Server = (function(){
         //     room1: {users: {}, options:{}}
         // }
 
-        let start = function(){
+    let start = function(){
         server.listen(port, console.log(`server started, and listening to requests on ${port}`))
-        //serve the static files in the src folder to the browser, these are the files that the users will see
+
+        app.set('views', './src/views')
+        app.set('view engine', 'ejs')
         app.use(express.static('./dist'))
+        //accept URL params
+        app.use(express.urlencoded({extended: true}))
             
         app.get('/', (req, res) => {
-            res.render('index', {data: rooms})
+            // res.render('index', {data: rooms})
+            res.render('index', {rooms : data.rooms})
         })
     
+        //dynamic room route
         app.get('/:room', (req, res) => {
             res.render('room', {roomName: req.params.room})
         })

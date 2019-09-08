@@ -19,7 +19,7 @@ module.exports = {
         preset: 'default',
       }),
       purgecss({
-        content: ['./**/*.html'],
+        content: ['./**/*.ejs'],
         extractors: [
           {
             extractor: class TailwindExtractor {
@@ -27,7 +27,7 @@ module.exports = {
                 return content.match(/[A-z0-9-:\/]+/g) || []
               }
             },
-            extensions: ['css', 'html']
+            extensions: ['css', 'ejs']
           }
         ]
       }),

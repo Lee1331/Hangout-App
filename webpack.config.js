@@ -93,8 +93,11 @@ module.exports = {
         }),
         */
         new HtmlWebpackPlugin({
-            template: "./src/index.html",
-            filename: "./index.html"
+            template: "./src/views/index.ejs",
+            filename: "./index.ejs",
+            minify: {
+                collapseWhitespace: true
+            }
         })
     ]
 }
