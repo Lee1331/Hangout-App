@@ -83,9 +83,7 @@ window.onload = function(){
                 
                 fieldsArr[0].focus()
             },
-            displayRooms: () => {
-
-            },
+            // displayRooms: () => {},
         }
     })()
 

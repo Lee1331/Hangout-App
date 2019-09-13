@@ -75,20 +75,29 @@ const port = 5500
 
 
 //create rooms/room components (chat, cameras, game, etc...) on the client end and store them in the back end?
+//use RX.js Observeables to handle the camera data stream? - may be overkill, might we better to just use Async/Await - https://www.youtube.com/watch?v=wrI-Jb0oFyk
 let Server = (function(){
         let data = {
-            rooms: [
-                //users
-                //elements? {
-                    //chat:{},
-                    // cameras:{},
-                    // game:{}
-                //}
-                {room1:{}},   
-            ],
+            // rooms: [
+            //     //users
+            //     //elements? {
+            //         //chat:{},
+            //         // cameras:{},
+            //         // game:{}
+            //     //}
+            //     {room1:{}},   
+            //     // {room2:{}},   
+            //     // {room3:{}},   
+            // ],
+            rooms: {
+                room1:{},   
+                room2:{},   
+                room3:{},   
+
+            },
             users: [
                 //pretty sure we can handle users connecting/disconnecting to rooms without needing to store them in 'data.rooms'
-            ]
+            ],
         }
 
         // let User = function(username){
@@ -130,6 +139,11 @@ let Server = (function(){
         //     room1: {users: {}, options:{}}
         // }
 
+    let getRooms = function(){
+        console.log(data.rooms)
+        return data.rooms
+    };
+
     let start = function(){
         server.listen(port, console.log(`server started, and listening to requests on ${port}`))
 
@@ -141,14 +155,20 @@ let Server = (function(){
             
         app.get('/', (req, res) => {
             // res.render('index', {data: rooms})
-            res.render('index', {rooms : data.rooms})
+            // res.render('index', {rooms : data.rooms})
+
+            // let rooms = {name1: {}}
+            // res.render('index', {rooms : rooms})
+            res.render('index', {rooms : getRooms()})
+            // console.log('rooms = ' + getRooms())
+            // res.render('index', {rooms : rooms})
         })
     
         //dynamic room route
         app.get('/:room', (req, res) => {
             res.render('room', {roomName: req.params.room})
         })
-    }
+    };
 
     let listenForConnections = function(){
         io.on('connection', function(socket){
@@ -156,23 +176,29 @@ let Server = (function(){
     
             socket.on('create-room', (room) => {
                 console.log('room ' + room + ' created')
-                data.rooms.push(room)
+                // data.rooms.push(room)
+
+
+                // data.rooms[room] = room
+                data.rooms[room] = 'new room'
                 console.log('rooms = ' + data.rooms)
 
                 // socket.broadcast.emit
             })
             socket.on('create-user', (username) => {
                 console.log('user ' + username + ' created')
-                data.users.push(username)
+                // data.users.push(username)
+
+                data.users[username] = username
                 console.log('users = ' + data.users)
-                // console.log(this)
             })
             socket.on('join-room', (room, username) => {
                 socket.join(room)
                 socket.to(room).broadcast.emit('user-connected', username)
             })
         })
-    }
+    };
+
     return {
         init: function(){
             start()

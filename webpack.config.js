@@ -5,6 +5,8 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const PurgecssPlugin = require('purgecss-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+const webpack = require('webpack')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
     entry: './src/js/app.js',
@@ -30,6 +32,20 @@ module.exports = {
                         loader: "html-loader",
                         options: {
                             minimize: true,
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.ejs$/,
+                use: [
+                    {
+                        loader: 'ejs-compiled-loader',
+                        // loader: 'ejs-loader',
+                        query: {
+                            variable: 'data',
+                            // interpolate : '\\{\\{(.+?)\\}\\}',
+                            // evaluate : '\\[\\[(.+?)\\]\\]'
                         }
                     }
                 ]
@@ -92,12 +108,20 @@ module.exports = {
             // chunkFilename: "tailwind.css"
         }),
         */
+        // new CleanWebpackPlugin(), - //this will recreate the dist folder everytime we save - we don't want to rebuilt the tailwind.css file everytime, instead we want to create it once and then serve it to the users
         new HtmlWebpackPlugin({
-            template: "./src/views/index.ejs",
+            title: 'Hangout-App',
+            // template: "./src/views/index.ejs",
+            template: '!!raw-loader!' + path.join(__dirname, 'src/views/index.ejs'),
+            // filename: "./index.html",
             filename: "./index.ejs",
             minify: {
                 collapseWhitespace: true
             }
-        })
+        }),
+        new webpack.ProvidePlugin({
+            _: "ejs"
+        }),
+    
     ]
 }
